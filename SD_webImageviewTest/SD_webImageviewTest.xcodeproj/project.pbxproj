@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A7B61D35E5F6AFED4819569 /* libPods-SD_webImageviewTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF65B3C12686F3279A488447 /* libPods-SD_webImageviewTest.a */; };
 		CD0C3135212118D300BA29CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0C3134212118D300BA29CF /* AppDelegate.m */; };
 		CD0C3138212118D300BA29CF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0C3137212118D300BA29CF /* ViewController.m */; };
 		CD0C313B212118D300BA29CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0C3139212118D300BA29CF /* Main.storyboard */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6AD5D765F1566DFC68C826F5 /* Pods-SD_webImageviewTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SD_webImageviewTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-SD_webImageviewTest/Pods-SD_webImageviewTest.release.xcconfig"; sourceTree = "<group>"; };
+		BA5FE80C80ADAA0349A645C0 /* Pods-SD_webImageviewTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SD_webImageviewTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SD_webImageviewTest/Pods-SD_webImageviewTest.debug.xcconfig"; sourceTree = "<group>"; };
 		CD0C3130212118D300BA29CF /* SD_webImageviewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SD_webImageviewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0C3133212118D300BA29CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD0C3134212118D300BA29CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -26,6 +29,7 @@
 		CD0C313F212118D400BA29CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD0C3141212118D400BA29CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD0C3142212118D400BA29CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FF65B3C12686F3279A488447 /* libPods-SD_webImageviewTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SD_webImageviewTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +37,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A7B61D35E5F6AFED4819569 /* libPods-SD_webImageviewTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BA03AE156325443878FFD4E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA5FE80C80ADAA0349A645C0 /* Pods-SD_webImageviewTest.debug.xcconfig */,
+				6AD5D765F1566DFC68C826F5 /* Pods-SD_webImageviewTest.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		CD0C3127212118D300BA29CF = {
 			isa = PBXGroup;
 			children = (
 				CD0C3132212118D300BA29CF /* SD_webImageviewTest */,
 				CD0C3131212118D300BA29CF /* Products */,
+				0BA03AE156325443878FFD4E /* Pods */,
+				EA2AF66F5AC04B7AE55231BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +87,14 @@
 			path = SD_webImageviewTest;
 			sourceTree = "<group>";
 		};
+		EA2AF66F5AC04B7AE55231BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF65B3C12686F3279A488447 /* libPods-SD_webImageviewTest.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -78,6 +102,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD0C3146212118D400BA29CF /* Build configuration list for PBXNativeTarget "SD_webImageviewTest" */;
 			buildPhases = (
+				8071CFA98C6BD9A042F904B4 /* [CP] Check Pods Manifest.lock */,
 				CD0C312C212118D300BA29CF /* Sources */,
 				CD0C312D212118D300BA29CF /* Frameworks */,
 				CD0C312E212118D300BA29CF /* Resources */,
@@ -135,6 +160,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8071CFA98C6BD9A042F904B4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SD_webImageviewTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CD0C312C212118D300BA29CF /* Sources */ = {
@@ -281,6 +327,7 @@
 		};
 		CD0C3147212118D400BA29CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA5FE80C80ADAA0349A645C0 /* Pods-SD_webImageviewTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +345,7 @@
 		};
 		CD0C3148212118D400BA29CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AD5D765F1566DFC68C826F5 /* Pods-SD_webImageviewTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
