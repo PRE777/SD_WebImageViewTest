@@ -135,7 +135,7 @@ typedef NSData * _Nullable(^SDWebImageCacheSerializerBlock)(UIImage * _Nonnull i
 
 /**
  * Controls which image should be downloaded when the image is not found in the cache.
- *
+ * 当缓存没有发现当前图片，那么会查看调用者是否实现该方法，如果return一个no，则不会继续下载这张图片
  * @param imageManager The current `SDWebImageManager`
  * @param imageURL     The url of the image to be downloaded
  *
@@ -163,6 +163,7 @@ typedef NSData * _Nullable(^SDWebImageCacheSerializerBlock)(UIImage * _Nonnull i
  *
  * @return The transformed image object.
  */
+// 当图片下载完成但是未添加到缓存里面，这时候调用该方法可以给图片旋转方向，注意是异步执行， 防止阻塞主线程
 - (nullable UIImage *)imageManager:(nonnull SDWebImageManager *)imageManager transformDownloadedImage:(nullable UIImage *)image withURL:(nullable NSURL *)imageURL;
 
 @end
@@ -212,6 +213,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
 
  * @endcode
  */
+//这个缓存block的作用是，在block内部进行缓存key的生成并return，key就是根据图片url根据规则生成，sd的缓存策略就是key是图片url，value就是image
 @property (nonatomic, copy, nullable) SDWebImageCacheKeyFilterBlock cacheKeyFilter;
 
 /**
@@ -245,6 +247,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
  * Allows to specify instance of cache and image downloader used with image manager.
  * @return new instance of `SDWebImageManager` with specified cache and downloader.
  */
+//根据特定的cache和downloader生成一个新的SDWebImageManager
 - (nonnull instancetype)initWithCache:(nonnull SDImageCache *)cache downloader:(nonnull SDWebImageDownloader *)downloader NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -272,6 +275,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
  *
  * @return Returns an NSObject conforming to SDWebImageOperation. Should be an instance of SDWebImageDownloaderOperation
  */
+// 下载图片的关键方法，第一个参数图片url，第二个参数设置下载多样操作，第三个参数下载中进度block，第四个参数下载完成后回调
 - (nullable id <SDWebImageOperation>)loadImageWithURL:(nullable NSURL *)url
                                               options:(SDWebImageOptions)options
                                              progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
@@ -284,7 +288,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
  * @param url   The URL to the image
  *
  */
-
+//缓存图片根据指定的url和image
 - (void)saveImageToCache:(nullable UIImage *)image forURL:(nullable NSURL *)url;
 
 /**
@@ -295,6 +299,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
 /**
  * Check one or more operations running
  */
+//检查是否有图片正在下载
 - (BOOL)isRunning;
 
 /**
@@ -305,6 +310,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
  *  
  *  @note the completion block is always executed on the main queue
  */
+//异步检查图片是否已经缓存
 - (void)cachedImageExistsForURL:(nullable NSURL *)url
                      completion:(nullable SDWebImageCheckCacheCompletionBlock)completionBlock;
 
@@ -316,6 +322,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
  *
  *  @note the completion block is always executed on the main queue
  */
+//检查图片是否缓存 在磁盘中
 - (void)diskImageExistsForURL:(nullable NSURL *)url
                    completion:(nullable SDWebImageCheckCacheCompletionBlock)completionBlock;
 
@@ -323,6 +330,7 @@ SDWebImageManager.sharedManager.cacheKeyFilter = ^(NSURL * _Nullable url) {
 /**
  *Return the cache key for a given URL
  */
+//给定一个url返回缓存的字符串key
 - (nullable NSString *)cacheKeyForURL:(nullable NSURL *)url;
 
 @end

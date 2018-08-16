@@ -14,6 +14,9 @@
 		CD0C313D212118D400BA29CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD0C313C212118D400BA29CF /* Assets.xcassets */; };
 		CD0C3140212118D400BA29CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD0C313E212118D400BA29CF /* LaunchScreen.storyboard */; };
 		CD0C3143212118D400BA29CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0C3142212118D400BA29CF /* main.m */; };
+		CD0C314F21212CDB00BA29CF /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0C314E21212CDB00BA29CF /* BaseViewController.m */; };
+		CD0C315221212D6A00BA29CF /* DownLoadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0C315121212D6A00BA29CF /* DownLoadImageViewController.m */; };
+		CD0C315521212F2900BA29CF /* LoadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0C315421212F2900BA29CF /* LoadImageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,12 @@
 		CD0C313F212118D400BA29CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD0C3141212118D400BA29CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD0C3142212118D400BA29CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CD0C314D21212CDB00BA29CF /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		CD0C314E21212CDB00BA29CF /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		CD0C315021212D6A00BA29CF /* DownLoadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownLoadImageViewController.h; sourceTree = "<group>"; };
+		CD0C315121212D6A00BA29CF /* DownLoadImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownLoadImageViewController.m; sourceTree = "<group>"; };
+		CD0C315321212F2900BA29CF /* LoadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoadImageViewController.h; sourceTree = "<group>"; };
+		CD0C315421212F2900BA29CF /* LoadImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoadImageViewController.m; sourceTree = "<group>"; };
 		FF65B3C12686F3279A488447 /* libPods-SD_webImageviewTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SD_webImageviewTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -74,6 +83,7 @@
 		CD0C3132212118D300BA29CF /* SD_webImageviewTest */ = {
 			isa = PBXGroup;
 			children = (
+				CD0C31492121272A00BA29CF /* ViewControllers */,
 				CD0C3133212118D300BA29CF /* AppDelegate.h */,
 				CD0C3134212118D300BA29CF /* AppDelegate.m */,
 				CD0C3136212118D300BA29CF /* ViewController.h */,
@@ -85,6 +95,19 @@
 				CD0C3142212118D400BA29CF /* main.m */,
 			);
 			path = SD_webImageviewTest;
+			sourceTree = "<group>";
+		};
+		CD0C31492121272A00BA29CF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CD0C314D21212CDB00BA29CF /* BaseViewController.h */,
+				CD0C314E21212CDB00BA29CF /* BaseViewController.m */,
+				CD0C315321212F2900BA29CF /* LoadImageViewController.h */,
+				CD0C315421212F2900BA29CF /* LoadImageViewController.m */,
+				CD0C315021212D6A00BA29CF /* DownLoadImageViewController.h */,
+				CD0C315121212D6A00BA29CF /* DownLoadImageViewController.m */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		EA2AF66F5AC04B7AE55231BB /* Frameworks */ = {
@@ -187,7 +210,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD0C315221212D6A00BA29CF /* DownLoadImageViewController.m in Sources */,
 				CD0C3138212118D300BA29CF /* ViewController.m in Sources */,
+				CD0C315521212F2900BA29CF /* LoadImageViewController.m in Sources */,
+				CD0C314F21212CDB00BA29CF /* BaseViewController.m in Sources */,
 				CD0C3143212118D400BA29CF /* main.m in Sources */,
 				CD0C3135212118D300BA29CF /* AppDelegate.m in Sources */,
 			);

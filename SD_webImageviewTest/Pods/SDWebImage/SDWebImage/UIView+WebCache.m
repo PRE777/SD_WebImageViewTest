@@ -60,10 +60,14 @@ static char TAG_ACTIVITY_SHOW;
                           progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
                          completed:(nullable SDExternalCompletionBlock)completedBlock
                            context:(nullable NSDictionary<NSString *, id> *)context {
+    // 根据参数operationKey取消当前类所对应的下载Operation对象，
+    // 如果operationKey为nil key取NSStringFromClass([self class])
     NSString *validOperationKey = operationKey ?: NSStringFromClass([self class]);
     [self sd_cancelImageLoadOperationWithKey:validOperationKey];
+    // 设置关联属性：利用关联对象给当前self实例绑定url key=imageURLKey value=url
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
+    // 利用按位与（&）运算判断调用者是否需要设置占位图，需要则set
     if (!(options & SDWebImageDelayPlaceholder)) {
         dispatch_main_async_safe(^{
             [self sd_setImage:placeholder imageData:nil basedOnClassOrViaCustomSetImageBlock:setImageBlock];
@@ -73,6 +77,7 @@ static char TAG_ACTIVITY_SHOW;
     if (url) {
 #if SD_UIKIT
         // check if activityView is enabled or not
+        // 判断之前是否利用关联对象给self设置了显示菊花加载，如果有则add
         if ([self sd_showActivityIndicatorView]) {
             [self sd_addActivityIndicator];
         }
@@ -90,6 +95,7 @@ static char TAG_ACTIVITY_SHOW;
         }
         
         __weak __typeof(self)wself = self;
+        // 监听下载进度
         SDWebImageDownloaderProgressBlock combinedProgressBlock = ^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             wself.sd_imageProgress.totalUnitCount = expectedSize;
             wself.sd_imageProgress.completedUnitCount = receivedSize;
@@ -97,11 +103,12 @@ static char TAG_ACTIVITY_SHOW;
                 progressBlock(receivedSize, expectedSize, targetURL);
             }
         };
+        // 调用SDWebImageManager的loadImageWithURL方法去加载图片，返回值是SDWebImageCombinedOperation
         id <SDWebImageOperation> operation = [manager loadImageWithURL:url options:options progress:combinedProgressBlock completed:^(UIImage *image, NSData *data, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             __strong __typeof (wself) sself = wself;
             if (!sself) { return; }
 #if SD_UIKIT
-            [sself sd_removeActivityIndicator];
+            [sself sd_removeActivityIndicator];//在这里移除菊花
 #endif
             // if the progress not been updated, mark it to complete state
             if (finished && !error && sself.sd_imageProgress.totalUnitCount == 0 && sself.sd_imageProgress.completedUnitCount == 0) {
@@ -116,6 +123,7 @@ static char TAG_ACTIVITY_SHOW;
                 if (!shouldNotSetImage) {
                     [sself sd_setNeedsLayout];
                 }
+                // 如果设置了不自动显示图片，则回调让调用者手动添加显示图片 程序return
                 if (completedBlock && shouldCallCompletedBlock) {
                     completedBlock(image, error, cacheType, url);
                 }

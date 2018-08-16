@@ -15,9 +15,9 @@
 
 @interface SDWebImageCombinedOperation : NSObject <SDWebImageOperation>
 
-@property (assign, nonatomic, getter = isCancelled) BOOL cancelled;
-@property (strong, nonatomic, nullable) SDWebImageDownloadToken *downloadToken;
-@property (strong, nonatomic, nullable) NSOperation *cacheOperation;
+@property (assign, nonatomic, getter = isCancelled) BOOL cancelled; // 是否取消当前所有操作
+@property (strong, nonatomic, nullable) SDWebImageDownloadToken *downloadToken; //与每个下载相关联的令牌。可以用来取消下载
+@property (strong, nonatomic, nullable) NSOperation *cacheOperation; // 执行缓存操作
 @property (weak, nonatomic, nullable) SDWebImageManager *manager;
 
 @end
@@ -26,7 +26,7 @@
 
 @property (strong, nonatomic, readwrite, nonnull) SDImageCache *imageCache;
 @property (strong, nonatomic, readwrite, nonnull) SDWebImageDownloader *imageDownloader;
-@property (strong, nonatomic, nonnull) NSMutableSet<NSURL *> *failedURLs;
+@property (strong, nonatomic, nonnull) NSMutableSet<NSURL *> *failedURLs; //集合存储所有下载失败的图片url
 @property (strong, nonatomic, nonnull) dispatch_semaphore_t failedURLsLock; // a lock to keep the access to `failedURLs` thread-safe
 @property (strong, nonatomic, nonnull) NSMutableSet<SDWebImageCombinedOperation *> *runningOperations;
 @property (strong, nonatomic, nonnull) dispatch_semaphore_t runningOperationsLock; // a lock to keep the access to `runningOperations` thread-safe
@@ -61,7 +61,7 @@
     }
     return self;
 }
-
+//根据URL获取缓存中的key
 - (nullable NSString *)cacheKeyForURL:(nullable NSURL *)url {
     if (!url) {
         return @"";
@@ -78,12 +78,13 @@
     return SDScaledImageForKey(key, image);
 }
 
+// 检查缓存中是否缓存了当前url对应的图片-先判断内存缓存、再判断磁盘缓存
 - (void)cachedImageExistsForURL:(nullable NSURL *)url
                      completion:(nullable SDWebImageCheckCacheCompletionBlock)completionBlock {
     NSString *key = [self cacheKeyForURL:url];
-    
+   
+    //判断内存缓存是否存在
     BOOL isInMemoryCache = ([self.imageCache imageFromMemoryCacheForKey:key] != nil);
-    
     if (isInMemoryCache) {
         // making sure we call the completion block on the main queue
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -93,7 +94,7 @@
         });
         return;
     }
-    
+    // 判断磁盘缓存中是否存在
     [self.imageCache diskImageExistsWithKey:key completion:^(BOOL isInDiskCache) {
         // the completion block of checkDiskCacheForImageWithKey:completion: is always called on the main queue, no need to further dispatch
         if (completionBlock) {
@@ -101,7 +102,7 @@
         }
     }];
 }
-
+// 根据URL判断磁盘缓存中是否存在图片
 - (void)diskImageExistsForURL:(nullable NSURL *)url
                    completion:(nullable SDWebImageCheckCacheCompletionBlock)completionBlock {
     NSString *key = [self cacheKeyForURL:url];
@@ -113,12 +114,13 @@
         }
     }];
 }
-
+// 进行图片下载操作
 - (id <SDWebImageOperation>)loadImageWithURL:(nullable NSURL *)url
                                      options:(SDWebImageOptions)options
                                     progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
                                    completed:(nullable SDInternalCompletionBlock)completedBlock {
     // Invoking this method without a completedBlock is pointless
+    // completedBlock为nil，则触发断言，程序crash
     NSAssert(completedBlock != nil, @"If you mean to prefetch the image, use -[SDWebImagePrefetcher prefetchURLs] instead");
 
     // Very common mistake is to send the URL using NSString object instead of NSURL. For some strange reason, Xcode won't
@@ -131,7 +133,7 @@
     if (![url isKindOfClass:NSURL.class]) {
         url = nil;
     }
-
+    // 封装下载操作的对象
     SDWebImageCombinedOperation *operation = [SDWebImageCombinedOperation new];
     operation.manager = self;
 
@@ -142,6 +144,7 @@
         UNLOCK(self.failedURLsLock);
     }
 
+    //如果url为nil，或者没有设置失败url重新下载的配置且该url已经下载失败过，那么返回失败的回调
     if (url.absoluteString.length == 0 || (!(options & SDWebImageRetryFailed) && isFailedUrl)) {
         [self callCompletionBlockForOperation:operation completion:completedBlock error:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorFileDoesNotExist userInfo:nil] url:url];
         return operation;
@@ -151,13 +154,14 @@
     [self.runningOperations addObject:operation];
     UNLOCK(self.runningOperationsLock);
     NSString *key = [self cacheKeyForURL:url];
-    
+
     SDImageCacheOptions cacheOptions = 0;
     if (options & SDWebImageQueryDataWhenInMemory) cacheOptions |= SDImageCacheQueryDataWhenInMemory;
     if (options & SDWebImageQueryDiskSync) cacheOptions |= SDImageCacheQueryDiskSync;
     if (options & SDWebImageScaleDownLargeImages) cacheOptions |= SDImageCacheScaleDownLargeImages;
     
     __weak SDWebImageCombinedOperation *weakOperation = operation;
+    //使用缓存对象，根据key去寻找查找
     operation.cacheOperation = [self.imageCache queryCacheOperationForKey:key options:cacheOptions done:^(UIImage *cachedImage, NSData *cachedData, SDImageCacheType cacheType) {
         __strong __typeof(weakOperation) strongOperation = weakOperation;
         if (!strongOperation || strongOperation.isCancelled) {

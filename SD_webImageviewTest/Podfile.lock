@@ -1,18 +1,29 @@
 PODS:
+  - FLAnimatedImage (1.0.12)
+  - JSONModel (1.7.0)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
+  - SDWebImage/GIF (4.4.2):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
 
 DEPENDENCIES:
+  - JSONModel
   - SDWebImage
+  - SDWebImage/GIF
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - FLAnimatedImage
+    - JSONModel
     - SDWebImage
 
 SPEC CHECKSUMS:
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: f750aa09a879768d40ffe65c1c9b9590a3ecd118
+PODFILE CHECKSUM: 9dbd24f49a994009641563479235eac640b7dcff
 
 COCOAPODS: 1.5.2
